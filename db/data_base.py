@@ -1,13 +1,14 @@
 import threading
 import pymysql
+from db_key import host, user, pw, database
 
 class DataBase:
     def __init__(self):
         self.conn = pymysql.connect(
-            host="localhost",
-            user="root",
-            password="1234",
-            database="kiosk",
+            host=host,
+            user=user,
+            password=pw,
+            database=database,
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor,
         )
