@@ -1,20 +1,17 @@
-import threading
-import pymysql
+from mysql.connector import pooling
 from db_key import host, user, pw, database
 
 class DataBase:
     def __init__(self):
-        self.conn = pymysql.connect(
+        self.pool = pooling.MySQLConnectionPool(
+            pool_name="menu_pool",
+            pool_size=5,
             host=host,
             user=user,
             password=pw,
             database=database,
             charset="utf8mb4",
-            cursorclass=pymysql.cursors.DictCursor,
         )
-        self.cur = self.conn.cursor()
-        self.lock = threading.Lock()
 
-    def close(self):
-        self.cur.close()
-        self.conn.close()
+    def get_connection(self):
+        return self.pool.get_connection()
